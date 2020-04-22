@@ -5,33 +5,37 @@ import { getOrders } from "../../apiCalls";
 import { setOrders } from "../../actions";
 
 class Orders extends Component {
-
   componentDidMount = () => {
-    console.log(this.props.orders);
     getOrders()
       .then((data) => this.props.setOrders(data.orders))
       .catch((err) => console.error("Error fetching:", err));
   };
   render() {
-  const orderEls = this.props.orders.map(order => {
-    return (
-      <div className="order" key={order.id}>
-        <h3>{order.name}</h3>
-        <ul className="ingredient-list">
-          {order.ingredients.map(ingredient => {
-            return <li key={order.id + ingredient}>{ingredient}</li>
-          })}
-        </ul>
-      </div>
-    )
-  });
-    return (
-      <section>
-        { orderEls.length ? orderEls : <p>No orders yet!</p> }
-      </section>
-    );
-  }
-}
+    console.log(this.props)
+    if (this.props.orders.length) {
+      const orderEls = this.props.orders.map(order => {
+        return (
+          <div className="order" key={order.id}>
+            <h3>{order.name}</h3>
+            <ul className="ingredient-list">
+              {order.ingredients.map(ingredient => {
+                return <li key={order.id + ingredient}>{ingredient}</li>
+              })}
+            </ul>
+          </div>
+        )
+      });
+        return (
+          <section>
+            { orderEls.length ? orderEls : <p>No orders yet!</p> }
+          </section>
+        );
+      } else {
+        return "Tis loadin...'"
+      }
+    }
+    }
+ 
 
 const mapStateToProps = ({ orders }) => ({
   orders: orders,
