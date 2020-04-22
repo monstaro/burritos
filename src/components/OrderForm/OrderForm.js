@@ -53,6 +53,7 @@ class OrderForm extends Component {
     const ingredientButtons = possibleIngredients.map((ingredient) => {
       return (
         <button
+          data-testid={ingredient}
           key={ingredient}
           name={ingredient}
           onClick={(e) => this.handleIngredientChange(e)}
@@ -79,6 +80,7 @@ class OrderForm extends Component {
         <button
           disabled={!this.state.ingredients.length}
           onClick={(e) => this.handleSubmit(e)}
+          data-testid="submit-btn"
         >
           Submit Order
         </button>
