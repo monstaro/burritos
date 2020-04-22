@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./Orders.css";
 import { connect } from "react-redux";
-import { getOrders } from "../../apiCalls";
-import { setOrders } from "../../actions";
+import { getOrders, deleteOrder } from "../../apiCalls";
+import { setOrders, removeOrder } from "../../actions";
 
 class Orders extends Component {
   componentDidMount = () => {
@@ -10,6 +10,10 @@ class Orders extends Component {
       .then((data) => this.props.setOrders(data.orders))
       .catch((err) => console.error("Error fetching:", err));
   };
+  deleteHandler(order) {
+    this.props.removeOrder(order)
+    deleteOrder(order.id)
+  }
   render() {
     console.log(this.props)
     if (this.props.orders.length) {
@@ -17,6 +21,7 @@ class Orders extends Component {
         return (
           <div className="order" key={order.id}>
             <h3>{order.name}</h3>
+            <button onClick={() => this.deleteHandler(order)}>Delete</button>
             <ul className="ingredient-list">
               {order.ingredients.map(ingredient => {
                 return <li key={order.id + ingredient}>{ingredient}</li>
@@ -43,7 +48,8 @@ const mapStateToProps = ({ orders }) => ({
 
 const mapDispatchToProps = dispatch => (
   {
-    setOrders: (orders) => dispatch(setOrders(orders))
+    setOrders: (orders) => dispatch(setOrders(orders)),
+    removeOrder: (order) => dispatch(removeOrder(order))
   }
 );
 

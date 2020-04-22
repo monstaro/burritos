@@ -12,3 +12,13 @@ export const postOrder = (order) => {
     body: JSON.stringify(order)
   })
 }
+
+export const deleteOrder = (orderId) => {
+  let ENDPOINT = orderId
+  return fetch('http://localhost:3001/api/v1/orders/' + ENDPOINT, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type':'application/json'
+    },
+  })
+}
